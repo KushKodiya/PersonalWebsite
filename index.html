@@ -58,16 +58,21 @@
           "label-md": ["14px", {"lineHeight": "16px", "fontWeight": "500"}],
           "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
           "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-          "display-hero": ["52px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "600"}],
+          "display-hero": ["clamp(28px, 7.5vw, 52px)", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "600"}],
           "display-giant": ["clamp(140px, 32vw, 374px)", {"lineHeight": "0.8", "letterSpacing": "-0.06em", "fontWeight": "800"}],
-          "display-lg": ["clamp(56px, 9vw, 94px)", {"lineHeight": "1", "letterSpacing": "-0.03em", "fontWeight": "700"}]
+          "display-lg": ["clamp(38px, 9vw, 94px)", {"lineHeight": "1", "letterSpacing": "-0.03em", "fontWeight": "700"}]
         }
       }
     }
   }
 </script>
 <style>
-  body { background-color: #c4c3b6; color: #000000; overflow-x: hidden; }
+  html, body { overflow-x: hidden; }
+  body { background-color: #c4c3b6; color: #000000; }
+  /* Mobile menu overlay */
+  #mobile-menu { display: none; }
+  #mobile-menu.open { display: flex; animation: menuIn 0.25s ease; }
+  @keyframes menuIn { from { opacity: 0; } to { opacity: 1; } }
   .notched-card {
     clip-path: polygon(
       0 10px, 10px 0,
@@ -163,7 +168,7 @@
 
 <!-- NAVIGATION -->
 <header class="fixed top-0 left-0 w-full z-50 bg-putty/80 backdrop-blur-md h-20 border-b border-ink/10">
-  <div class="flex justify-between items-center w-full px-margin-desktop max-w-[1440px] mx-auto h-full">
+  <div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop max-w-[1440px] mx-auto h-full">
     <a href="#home" class="font-davinci text-headline-xl font-bold text-ink tracking-tighter">KK</a>
     <nav class="hidden md:flex gap-lg items-center">
       <a class="nav-link text-ink active" href="#home" aria-current="true">Home</a>
@@ -173,14 +178,30 @@
       <a class="nav-link text-ink" href="#skills">Skills</a>
       <a class="nav-link text-ink" href="#contact">Contact</a>
     </nav>
+    <button id="menu-toggle" class="md:hidden flex items-center justify-center w-11 h-11 -mr-2 text-ink" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span class="material-symbols-outlined text-3xl">menu</span>
+    </button>
   </div>
 </header>
 
+<!-- MOBILE MENU OVERLAY -->
+<div id="mobile-menu" class="fixed inset-0 z-[70] bg-putty/95 backdrop-blur-md flex-col items-center justify-center gap-lg" role="dialog" aria-modal="true" aria-label="Site navigation">
+  <button id="menu-close" class="absolute top-6 right-6 w-11 h-11 flex items-center justify-center text-ink" aria-label="Close menu">
+    <span class="material-symbols-outlined text-3xl">close</span>
+  </button>
+  <a class="font-davinci text-4xl uppercase tracking-tight text-ink hover:text-graphite transition-colors" href="#home">Home</a>
+  <a class="font-davinci text-4xl uppercase tracking-tight text-ink hover:text-graphite transition-colors" href="#about">About</a>
+  <a class="font-davinci text-4xl uppercase tracking-tight text-ink hover:text-graphite transition-colors" href="#experience">Experience</a>
+  <a class="font-davinci text-4xl uppercase tracking-tight text-ink hover:text-graphite transition-colors" href="#projects">Projects</a>
+  <a class="font-davinci text-4xl uppercase tracking-tight text-ink hover:text-graphite transition-colors" href="#skills">Skills</a>
+  <a class="font-davinci text-4xl uppercase tracking-tight text-ink hover:text-graphite transition-colors" href="#contact">Contact</a>
+</div>
+
 <!-- 1. HERO (PUTTY ROOM) -->
 <section class="relative min-h-screen bg-putty text-ink flex flex-col pt-20 overflow-hidden" id="home">
-  <div class="flex-grow flex flex-col items-center justify-center text-center px-margin-desktop z-10 relative">
-    <h1 class="hero-rise d1 font-davinci text-display-hero mb-lg tracking-tight uppercase max-w-4xl">Computer Science Student &amp; Data Science Researcher</h1>
-    <div class="hero-rise d2 max-w-2xl mb-xl">
+  <div class="flex-grow flex flex-col items-center justify-center text-center px-margin-mobile md:px-margin-desktop z-10 relative">
+    <h1 class="hero-rise d1 font-davinci text-display-hero mb-lg tracking-tight uppercase w-full max-w-4xl">Computer Science Student &amp; Data Science Researcher</h1>
+    <div class="hero-rise d2 w-full max-w-2xl mb-xl">
       <p class="font-helvetica text-body-lg font-medium leading-relaxed opacity-80">
         Purdue University student specialized in Data Science, Autonomous Systems, and Software Engineering. Developing high-performance technical solutions.
       </p>
@@ -196,12 +217,12 @@
 </section>
 
 <!-- 2. ABOUT (PUTTY ROOM) -->
-<section class="bg-putty text-ink py-[120px] px-margin-desktop border-t border-ink/5" id="about">
+<section class="bg-putty text-ink py-[120px] px-margin-mobile md:px-margin-desktop border-t border-ink/5" id="about">
   <div class="stagger max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-xl items-start">
     <div class="reveal from-left">
       <h2 class="reveal wipe font-davinci text-display-lg mb-lg uppercase leading-none">About Me</h2>
       <div class="space-y-md font-helvetica text-body-lg opacity-80 max-w-lg">
-        <p>I'm a Computer Science student at Purdue University with a focus on data science and machine learning. My research work involves developing machine learning models for Johnson &amp; Johnson and real-time localization with sensor fusion for autonomous vehicles.</p>
+        <p>Hi! I'm Kush Kodiya, a Computer Science student at Purdue University with a focus on data science and machine learning. My research work involves developing machine learning models for Johnson &amp; Johnson and real-time localization with sensor fusion for autonomous vehicles.</p>
         <p>I am passionate about building full-stack applications like ChipCount and engineering robust web scrapers. My goal is to leverage machine learning and statistics to solve complex real-world challenges across diverse industries.</p>
       </div>
     </div>
@@ -224,7 +245,7 @@
 <!-- 3. EXPERIENCE (INK ROOM) -->
 <section class="relative min-h-[800px] flex items-center justify-center py-[120px] overflow-hidden bg-ink text-bone" id="experience">
   <div class="exp-parallax absolute inset-0 opacity-20 pointer-events-none grayscale contrast-150" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg/800px-Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg'); background-size: cover; background-position: center;"></div>
-  <div class="max-w-[1440px] mx-auto w-full px-margin-desktop z-20">
+  <div class="max-w-[1440px] mx-auto w-full px-margin-mobile md:px-margin-desktop z-20">
     <div class="reveal wipe mb-24 text-center">
       <h2 class="font-davinci text-display-lg uppercase leading-none">Experience</h2>
     </div>
@@ -271,7 +292,7 @@
 </section>
 
 <!-- 4. PROJECTS (INK ROOM CONT.) -->
-<section class="bg-ink text-bone py-[120px] px-margin-desktop border-t border-bone/10" id="projects">
+<section class="bg-ink text-bone py-[120px] px-margin-mobile md:px-margin-desktop border-t border-bone/10" id="projects">
   <div class="max-w-[1440px] mx-auto">
     <div class="reveal wipe mb-24 text-center">
       <h2 class="font-davinci text-display-lg uppercase leading-none">Projects</h2>
@@ -315,7 +336,7 @@
 </section>
 
 <!-- 5. SKILLS (PUTTY ROOM) -->
-<section class="bg-putty text-ink py-[120px] px-margin-desktop border-y border-ink/10" id="skills">
+<section class="bg-putty text-ink py-[120px] px-margin-mobile md:px-margin-desktop border-y border-ink/10" id="skills">
   <div class="max-w-[1440px] mx-auto">
     <div class="reveal wipe mb-24 text-center">
       <h2 class="font-davinci text-display-lg uppercase leading-none">Skills</h2>
@@ -440,7 +461,7 @@
 </section>
 
 <!-- 6. CONTACT (PAPER) -->
-<section class="text-ink py-[120px] px-margin-desktop text-center border-t border-ink/5 bg-white" id="contact">
+<section class="text-ink py-[120px] px-margin-mobile md:px-margin-desktop text-center border-t border-ink/5 bg-white" id="contact">
   <div class="stagger max-w-4xl mx-auto">
     <h2 class="reveal wipe font-davinci text-display-lg mb-lg uppercase leading-none">Contact</h2>
     <p class="reveal font-helvetica text-body-lg mb-xl opacity-70 max-w-2xl mx-auto">Open to collaborations, internship opportunities, or discussions on Data Science and Software Engineering.</p>
@@ -465,7 +486,7 @@
 </section>
 
 <!-- FOOTER -->
-<footer class="w-full py-xl px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-lg bg-ink text-bone border-t border-bone/5">
+<footer class="w-full py-xl px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-lg bg-ink text-bone border-t border-bone/5">
   <div class="flex flex-col items-center md:items-start">
     <span class="font-label text-label-md font-bold text-bone">KK</span>
   </div>
@@ -563,6 +584,32 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     update();
+  })();
+
+  // Mobile menu: open/close the overlay, lock body scroll, close on link/Esc.
+  (function () {
+    const toggle = document.getElementById('menu-toggle');
+    const closeBtn = document.getElementById('menu-close');
+    const menu = document.getElementById('mobile-menu');
+    if (!toggle || !menu) return;
+
+    function open() {
+      menu.classList.add('open');
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+    function close() {
+      menu.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    toggle.addEventListener('click', open);
+    closeBtn.addEventListener('click', close);
+    menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', close));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+    // Auto-close if the viewport grows past the mobile breakpoint while open
+    window.matchMedia('(min-width: 768px)').addEventListener('change', (e) => { if (e.matches) close(); });
   })();
 </script>
 
