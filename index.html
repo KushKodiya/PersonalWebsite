@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Kush Kodiya | Computer Science Student</title>
+<meta name="description" content="Kush Kodiya — Computer Science student & Data Science researcher at Purdue University. Structured Portfolio.">
+<!-- Fonts: Playfair Display (display serif / "Davinci"), Inter (grotesk), JetBrains Mono (labels), Material Symbols -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@400;500;600;700;800;900&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#57f1db",
+          "surface-bg": "#0B0E14",
+          "putty": "#c4c3b6",
+          "ink": "#000000",
+          "bone": "#e7e5e4",
+          "chalk": "#ebebeb",
+          "vellum": "#dfdcd5",
+          "graphite": "#595855",
+          "on-surface": "#dde4e1",
+          "border-subtle": "#30363D",
+          "surface-dim": "#0e1513"
+        },
+        borderRadius: {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "28.8px",
+          "pill": "28.8px"
+        },
+        spacing: {
+          "margin-mobile": "1rem",
+          "md": "1rem",
+          "lg": "1.5rem",
+          "xl": "2rem",
+          "sm": "0.5rem",
+          "margin-desktop": "2.5rem",
+          "gutter": "1.5rem",
+          "base": "4px",
+          "xs": "0.25rem"
+        },
+        fontFamily: {
+          "davinci": ["Playfair Display", "Canela", "Georgia", "serif"],
+          "helvetica": ["Inter", "Helvetica Now", "sans-serif"],
+          "label": ["JetBrains Mono", "monospace"]
+        },
+        fontSize: {
+          "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+          "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+          "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+          "label-md": ["14px", {"lineHeight": "16px", "fontWeight": "500"}],
+          "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+          "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+          "display-hero": ["52px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "600"}],
+          "display-giant": ["clamp(140px, 32vw, 374px)", {"lineHeight": "0.8", "letterSpacing": "-0.06em", "fontWeight": "800"}],
+          "display-lg": ["clamp(56px, 9vw, 94px)", {"lineHeight": "1", "letterSpacing": "-0.03em", "fontWeight": "700"}]
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { background-color: #c4c3b6; color: #000000; overflow-x: hidden; }
+  .notched-card {
+    clip-path: polygon(
+      0 10px, 10px 0,
+      calc(100% - 10px) 0, 100% 10px,
+      100% calc(100% - 10px), calc(100% - 10px) 100%,
+      10px 100%, 0 calc(100% - 10px)
+    );
+  }
+  .hex-indicator { clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); }
+  /* Tech logos render grayscale, colorize on group hover — matches the gallery aesthetic */
+  .tech-icon { filter: grayscale(1) contrast(0.9); transition: filter 0.5s ease; }
+  .group:hover .tech-icon { filter: grayscale(0); }
+  html { scroll-behavior: smooth; }
+  /* Scroll-spy nav links — ink underline marks the section in view */
+  .nav-link {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    font-weight: 500;
+    opacity: 0.6;
+    border-bottom: 2px solid transparent;
+    transition: opacity 0.2s ease, border-color 0.2s ease;
+  }
+  .nav-link:hover { opacity: 1; }
+  .nav-link.active {
+    opacity: 1;
+    font-weight: 700;
+    border-bottom-color: #000;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .nav-link { transition: none; }
+  }
+
+  /* Scroll progress bar — fills as you move down the page (kept even under
+     reduced motion; it's a position indicator, not decorative motion). */
+  #scroll-progress {
+    transform: scaleX(0);
+    transition: transform 0.08s linear;
+  }
+
+  /* Motion — only for users who haven't requested reduced motion.
+     Everything animates transform/opacity/filter to stay on the GPU path. */
+  @media (prefers-reduced-motion: no-preference) {
+    /* Base scroll reveal: rise + fade */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                  filter 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+    /* Variants — each overrides only the *initial* (hidden) state */
+    .reveal.from-left  { transform: translateX(-52px); }
+    .reveal.from-right { transform: translateX(52px); }
+    .reveal.zoom       { transform: scale(0.9); }
+    .reveal.blur       { transform: translateY(24px); filter: blur(12px); }
+    /* Negative top/bottom insets (as a % of the heading's own height, so they scale)
+       keep glyph ascenders/descenders — e.g. the J in PROJECTS — from being clipped,
+       while the horizontal center-out wipe still runs. */
+    .reveal.wipe       { opacity: 1; transform: none; clip-path: inset(-30% 50% -30% 50%);
+                         transition: clip-path 0.9s cubic-bezier(0.76, 0, 0.24, 1); }
+    /* Resolved end state — declared last so it wins for every variant */
+    .reveal.in         { opacity: 1; transform: none; filter: none; }
+    .reveal.wipe.in    { clip-path: inset(-30% 0 -30% 0); }
+    /* Staggered children when a parent grid/list reveals together */
+    .stagger > *:nth-child(2) { transition-delay: 0.08s; }
+    .stagger > *:nth-child(3) { transition-delay: 0.16s; }
+    .stagger > *:nth-child(4) { transition-delay: 0.24s; }
+    .stagger > *:nth-child(5) { transition-delay: 0.32s; }
+
+    /* Hero entrance on load */
+    .hero-rise {
+      opacity: 0;
+      transform: translateY(22px);
+      animation: heroRise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .hero-rise.d1 { animation-delay: 0.15s; }
+    .hero-rise.d2 { animation-delay: 0.30s; }
+    .hero-rise.d3 { animation-delay: 0.45s; }
+    @keyframes heroRise { to { opacity: 1; transform: none; } }
+
+    /* Giant wordmark fades up to its final 0.07 opacity */
+    .wordmark-fade { animation: wordmarkFade 1.8s ease 0.4s both; }
+    @keyframes wordmarkFade { from { opacity: 0; } to { opacity: 0.07; } }
+  }
+</style>
+</head>
+<body class="font-helvetica antialiased">
+
+<!-- SCROLL PROGRESS BAR -->
+<div id="scroll-progress" class="fixed top-0 left-0 z-[60] h-[3px] w-full bg-ink origin-left" aria-hidden="true"></div>
+
+<!-- NAVIGATION -->
+<header class="fixed top-0 left-0 w-full z-50 bg-putty/80 backdrop-blur-md h-20 border-b border-ink/10">
+  <div class="flex justify-between items-center w-full px-margin-desktop max-w-[1440px] mx-auto h-full">
+    <a href="#home" class="font-davinci text-headline-xl font-bold text-ink tracking-tighter">KK</a>
+    <nav class="hidden md:flex gap-lg items-center">
+      <a class="nav-link text-ink active" href="#home" aria-current="true">Home</a>
+      <a class="nav-link text-ink" href="#about">About</a>
+      <a class="nav-link text-ink" href="#experience">Experience</a>
+      <a class="nav-link text-ink" href="#projects">Projects</a>
+      <a class="nav-link text-ink" href="#skills">Skills</a>
+      <a class="nav-link text-ink" href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- 1. HERO (PUTTY ROOM) -->
+<section class="relative min-h-screen bg-putty text-ink flex flex-col pt-20 overflow-hidden" id="home">
+  <div class="flex-grow flex flex-col items-center justify-center text-center px-margin-desktop z-10 relative">
+    <h1 class="hero-rise d1 font-davinci text-display-hero mb-lg tracking-tight uppercase max-w-4xl">Computer Science Student &amp; Data Science Researcher</h1>
+    <div class="hero-rise d2 max-w-2xl mb-xl">
+      <p class="font-helvetica text-body-lg font-medium leading-relaxed opacity-80">
+        Purdue University student specialized in Data Science, Autonomous Systems, and Software Engineering. Developing high-performance technical solutions.
+      </p>
+    </div>
+    <a href="Kodiya_Resume.pdf" download="Kush_Kodiya_Resume.pdf" class="hero-rise d3 bg-ink text-putty font-helvetica font-bold py-md px-xl rounded-full transition-transform hover:scale-105 active:scale-95 inline-block">
+      Download Resume
+    </a>
+  </div>
+  <!-- Giant Davinci wordmark -->
+  <div class="absolute bottom-[-6vw] left-1/2 -translate-x-1/2 pointer-events-none select-none w-full flex justify-center z-0 overflow-visible">
+    <h2 class="wordmark-fade wordmark-parallax font-davinci text-display-giant opacity-[0.07] whitespace-nowrap leading-none select-none">Kush</h2>
+  </div>
+</section>
+
+<!-- 2. ABOUT (PUTTY ROOM) -->
+<section class="bg-putty text-ink py-[120px] px-margin-desktop border-t border-ink/5" id="about">
+  <div class="stagger max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-xl items-start">
+    <div class="reveal from-left">
+      <h2 class="reveal wipe font-davinci text-display-lg mb-lg uppercase leading-none">About Me</h2>
+      <div class="space-y-md font-helvetica text-body-lg opacity-80 max-w-lg">
+        <p>I'm a Computer Science student at Purdue University with a focus on data science and machine learning. My research work involves developing machine learning models for Johnson &amp; Johnson and real-time localization with sensor fusion for autonomous vehicles.</p>
+        <p>I am passionate about building full-stack applications like ChipCount and engineering robust web scrapers. My goal is to leverage machine learning and statistics to solve complex real-world challenges across diverse industries.</p>
+      </div>
+    </div>
+    <div class="reveal from-right bg-ink/[0.03] p-xl rounded-xl border border-ink/5">
+      <h4 class="font-davinci text-headline-md mb-md opacity-40">Education</h4>
+      <div class="space-y-sm">
+        <p class="font-helvetica font-bold text-body-lg">Purdue University, College of Science</p>
+        <p class="font-helvetica text-body-md opacity-70">Bachelor of Science in Computer Science | GPA: 3.64/4.00</p>
+        <p class="font-helvetica text-body-sm opacity-70">Minors in Mathematics and Statistics</p>
+        <p class="font-label text-label-md mt-sm bg-ink/10 inline-block px-2 py-1 rounded">Expected Dec 2027</p>
+        <div class="mt-md pt-md border-t border-ink/10">
+          <p class="font-label text-label-md font-bold mb-2 uppercase tracking-wider">Relevant Coursework</p>
+          <p class="text-body-sm opacity-60 leading-relaxed">Object-Oriented Programming, Data Mine, CS Tools, Intro to C, Discrete Math, Multivariate Calculus, Linear Algebra, Intro to Statistics, Computer Architecture, Data Structures and Algorithms</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. EXPERIENCE (INK ROOM) -->
+<section class="relative min-h-[800px] flex items-center justify-center py-[120px] overflow-hidden bg-ink text-bone" id="experience">
+  <div class="exp-parallax absolute inset-0 opacity-20 pointer-events-none grayscale contrast-150" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg/800px-Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg'); background-size: cover; background-position: center;"></div>
+  <div class="max-w-[1440px] mx-auto w-full px-margin-desktop z-20">
+    <div class="reveal wipe mb-24 text-center">
+      <h2 class="font-davinci text-display-lg uppercase leading-none">Experience</h2>
+    </div>
+    <div class="reveal zoom notched-card bg-surface-bg border border-bone/10 p-xl md:p-[64px] max-w-4xl shadow-2xl mx-auto">
+      <div class="space-y-xl">
+        <div class="border-b border-bone/10 pb-md">
+          <div class="flex justify-between items-start mb-2 gap-4">
+            <h4 class="font-davinci text-headline-md tracking-tight">Software Engineering Intern</h4>
+            <span class="font-label opacity-40 whitespace-nowrap text-sm">June 2026 – Present</span>
+          </div>
+          <p class="font-helvetica text-body-md font-bold text-primary">Reliance Matrix — Philadelphia, PA</p>
+        </div>
+        <div class="border-b border-bone/10 pb-md">
+          <div class="flex justify-between items-start mb-2 gap-4">
+            <h4 class="font-davinci text-headline-md tracking-tight">Data Science Researcher</h4>
+            <span class="font-label opacity-40 whitespace-nowrap text-sm">Jan 2026 – May 2026</span>
+          </div>
+          <p class="font-helvetica text-body-md font-bold text-primary">Johnson &amp; Johnson — West Lafayette, IN</p>
+        </div>
+        <div class="border-b border-bone/10 pb-md">
+          <div class="flex justify-between items-start mb-2 gap-4">
+            <h4 class="font-davinci text-headline-md tracking-tight">Autonomous Racing Researcher</h4>
+            <span class="font-label opacity-40 whitespace-nowrap text-sm">Aug 2025 – May 2026</span>
+          </div>
+          <p class="font-helvetica text-body-md font-bold text-primary">Purdue University — West Lafayette, IN</p>
+        </div>
+        <div class="border-b border-bone/10 pb-md">
+          <div class="flex justify-between items-start mb-2 gap-4">
+            <h4 class="font-davinci text-headline-md tracking-tight">Software Engineer Intern</h4>
+            <span class="font-label opacity-40 whitespace-nowrap text-sm">May 2025 – Sep 2025</span>
+          </div>
+          <p class="font-helvetica text-body-md font-bold text-primary">Planet Web Solutions — Remote</p>
+        </div>
+        <div>
+          <div class="flex justify-between items-start mb-2 gap-4">
+            <h4 class="font-davinci text-headline-md tracking-tight">Data Science Intern</h4>
+            <span class="font-label opacity-40 whitespace-nowrap text-sm">Jun 2023 – Jul 2023</span>
+          </div>
+          <p class="font-helvetica text-body-md font-bold text-primary">Ascendion — Remote</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. PROJECTS (INK ROOM CONT.) -->
+<section class="bg-ink text-bone py-[120px] px-margin-desktop border-t border-bone/10" id="projects">
+  <div class="max-w-[1440px] mx-auto">
+    <div class="reveal wipe mb-24 text-center">
+      <h2 class="font-davinci text-display-lg uppercase leading-none">Projects</h2>
+    </div>
+    <div class="stagger grid grid-cols-1 md:grid-cols-3 gap-xl">
+      <!-- Project 1 -->
+      <div class="reveal blur flex flex-col items-center group">
+        <a href="https://github.com/PranavBalaji122/chipCount" target="_blank" rel="noopener noreferrer" aria-label="ChipCount on GitHub" class="relative w-64 h-64 mb-lg block">
+          <div class="absolute inset-0 rounded-full border border-bone/20 scale-110 group-hover:scale-125 transition-transform duration-700"></div>
+          <div class="w-full h-full rounded-full overflow-hidden grayscale contrast-125 group-hover:grayscale-0 transition-all duration-500 border-2 border-bone/10">
+            <img alt="ChipCount" loading="lazy" class="w-full h-full object-cover object-[44%_50%] scale-[1.08]" src="assets/projects/chipcount.webp">
+          </div>
+        </a>
+        <h4 class="font-davinci text-headline-md tracking-widest mt-md text-center">CHIPCOUNT</h4>
+        <p class="font-helvetica text-body-sm opacity-50 text-center mt-sm max-w-[280px]">Full-stack poker website with game hosting and payout calculation.</p>
+      </div>
+      <!-- Project 2 -->
+      <div class="reveal blur flex flex-col items-center group">
+        <a href="https://github.com/KushKodiya/Job-Scraper" target="_blank" rel="noopener noreferrer" aria-label="Job Scraper on GitHub" class="relative w-64 h-64 mb-lg block">
+          <div class="absolute inset-0 rounded-full border border-bone/20 scale-110 group-hover:scale-125 transition-transform duration-700"></div>
+          <div class="w-full h-full rounded-full overflow-hidden grayscale contrast-125 group-hover:grayscale-0 transition-all duration-500 border-2 border-bone/10">
+            <img alt="Job Scraper" loading="lazy" class="w-full h-full object-cover object-center" src="assets/projects/job-scraper.jpeg">
+          </div>
+        </a>
+        <h4 class="font-davinci text-headline-md tracking-widest mt-md text-center">JOB SCRAPER</h4>
+        <p class="font-helvetica text-body-sm opacity-50 text-center mt-sm max-w-[280px]">Web scraper for finding daily internship listings from multiple boards.</p>
+      </div>
+      <!-- Project 3 -->
+      <div class="reveal blur flex flex-col items-center group">
+        <div class="relative w-64 h-64 mb-lg">
+          <div class="absolute inset-0 rounded-full border border-bone/20 scale-110 group-hover:scale-125 transition-transform duration-700"></div>
+          <div class="w-full h-full rounded-full overflow-hidden grayscale contrast-125 group-hover:grayscale-0 transition-all duration-500 border-2 border-bone/10">
+            <img alt="Rocket League" loading="lazy" class="w-full h-full object-cover object-center" src="assets/projects/rocket-league.jpg">
+          </div>
+        </div>
+        <h4 class="font-davinci text-headline-md tracking-widest mt-md text-center">ROCKET LEAGUE</h4>
+        <p class="font-helvetica text-body-sm opacity-50 text-center mt-sm max-w-[280px]">Reinforcement learning model training agents to play in a simplified simulation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. SKILLS (PUTTY ROOM) -->
+<section class="bg-putty text-ink py-[120px] px-margin-desktop border-y border-ink/10" id="skills">
+  <div class="max-w-[1440px] mx-auto">
+    <div class="reveal wipe mb-24 text-center">
+      <h2 class="font-davinci text-display-lg uppercase leading-none">Skills</h2>
+    </div>
+    <div class="stagger grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-xl">
+      <!-- Languages -->
+      <div class="reveal group">
+        <div class="flex items-center gap-sm mb-lg">
+          <div class="w-8 h-[2px] bg-ink"></div>
+          <h5 class="font-davinci text-label-md font-bold tracking-widest uppercase">Languages</h5>
+        </div>
+        <div class="grid grid-cols-4 gap-6 items-start">
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-12 h-12 flex items-center justify-center"><img class="tech-icon h-9 w-9 object-contain" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java"></div>
+            <span class="font-helvetica text-[15px] text-ink">Java</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-12 h-12 flex items-center justify-center"><img class="tech-icon h-9 w-9 object-contain" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python"></div>
+            <span class="font-helvetica text-[15px] text-ink">Python</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-12 h-12 flex items-center justify-center"><img class="tech-icon h-9 w-9 object-contain" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript"></div>
+            <span class="font-helvetica text-[15px] text-ink">JavaScript</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-12 h-12 flex items-center justify-center"><img class="tech-icon h-9 w-9 object-contain" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TypeScript"></div>
+            <span class="font-helvetica text-[15px] text-ink">TypeScript</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-12 h-12 flex items-center justify-center"><img class="tech-icon h-9 w-9 object-contain" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5"></div>
+            <span class="font-helvetica text-[15px] text-ink">HTML5</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-12 h-12 flex items-center justify-center"><img class="tech-icon h-9 w-9 object-contain" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3"></div>
+            <span class="font-helvetica text-[15px] text-ink">CSS3</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-12 h-12 flex items-center justify-center"><img class="tech-icon h-9 w-9 object-contain" src="assets/icons/sql.png" alt="SQL"></div>
+            <span class="font-helvetica text-[15px] text-ink">SQL</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-12 h-12 flex items-center justify-center"><img class="tech-icon h-9 w-9 object-contain" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/r/r-original.svg" alt="R"></div>
+            <span class="font-helvetica text-[15px] text-ink">R</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-12 h-12 flex items-center justify-center"><img class="tech-icon h-9 w-9 object-contain" src="assets/icons/c.png" alt="C"></div>
+            <span class="font-helvetica text-[15px] text-ink">C</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-12 h-12 flex items-center justify-center"><img class="tech-icon h-9 w-9 object-contain" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++"></div>
+            <span class="font-helvetica text-[15px] text-ink">C++</span>
+          </div>
+        </div>
+      </div>
+      <!-- Frameworks -->
+      <div class="reveal group">
+        <div class="flex items-center gap-sm mb-lg">
+          <div class="w-8 h-[2px] bg-ink"></div>
+          <h5 class="font-davinci text-label-md font-bold tracking-widest uppercase">Frameworks</h5>
+        </div>
+        <div class="flex flex-col border-t border-vellum">
+          <div class="flex justify-between items-center py-2 border-b border-vellum"><span class="font-helvetica text-[15px] text-ink">React</span></div>
+          <div class="flex justify-between items-center py-2 border-b border-vellum"><span class="font-helvetica text-[15px] text-ink">Next.js</span></div>
+          <div class="flex justify-between items-center py-2 border-b border-vellum"><span class="font-helvetica text-[15px] text-ink">Node.js</span></div>
+          <div class="flex justify-between items-center py-2 border-b border-vellum"><span class="font-helvetica text-[15px] text-ink">Flask</span></div>
+          <div class="flex justify-between items-center py-2 border-b border-vellum"><span class="font-helvetica text-[15px] text-ink">Express.js</span></div>
+          <div class="flex justify-between items-center py-2 border-b border-vellum"><span class="font-helvetica text-[15px] text-ink">Bootstrap</span></div>
+          <div class="flex justify-between items-center py-2 border-b border-vellum"><span class="font-helvetica text-[15px] text-ink">Tailwind</span></div>
+        </div>
+      </div>
+      <!-- Tools & DBs -->
+      <div class="reveal group">
+        <div class="flex items-center gap-sm mb-lg">
+          <div class="w-8 h-[2px] bg-ink"></div>
+          <h5 class="font-davinci text-label-md font-bold tracking-widest uppercase">Tools &amp; DBs</h5>
+        </div>
+        <div class="space-y-sm text-body-md opacity-70 group-hover:opacity-100 transition-opacity">
+          <div class="mb-sm">
+            <p class="font-bold mb-1">Tools:</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-ink/5 px-2 py-0.5 rounded text-body-sm">Git</span>
+              <span class="bg-ink/5 px-2 py-0.5 rounded text-body-sm">GCP</span>
+              <span class="bg-ink/5 px-2 py-0.5 rounded text-body-sm">VS Code</span>
+              <span class="bg-ink/5 px-2 py-0.5 rounded text-body-sm">Visual Studio</span>
+              <span class="bg-ink/5 px-2 py-0.5 rounded text-body-sm">IntelliJ</span>
+              <span class="bg-ink/5 px-2 py-0.5 rounded text-body-sm">Azure</span>
+              <span class="bg-ink/5 px-2 py-0.5 rounded text-body-sm">Firebase</span>
+              <span class="bg-ink/5 px-2 py-0.5 rounded text-body-sm">Vim</span>
+              <span class="bg-ink/5 px-2 py-0.5 rounded text-body-sm">Supabase</span>
+            </div>
+          </div>
+          <div class="mt-md">
+            <p class="font-bold mb-1">Databases:</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-ink/5 px-2 py-0.5 rounded text-body-sm">MongoDB</span>
+              <span class="bg-ink/5 px-2 py-0.5 rounded text-body-sm">PostgreSQL</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Libraries -->
+      <div class="reveal group">
+        <div class="flex items-center gap-sm mb-lg">
+          <div class="w-8 h-[2px] bg-ink"></div>
+          <h5 class="font-davinci text-label-md font-bold tracking-widest uppercase">Libraries</h5>
+        </div>
+        <div class="space-y-md">
+          <div class="flex flex-col gap-sm">
+            <div class="flex items-center gap-md"><div class="hex-indicator w-6 h-6 bg-ink/10 flex items-center justify-center group-hover:bg-ink transition-all"><div class="hex-indicator w-4 h-4 bg-ink/20"></div></div><span class="text-body-md opacity-70">Pandas</span></div>
+            <div class="flex items-center gap-md"><div class="hex-indicator w-6 h-6 bg-ink/10 flex items-center justify-center group-hover:bg-ink transition-all"><div class="hex-indicator w-4 h-4 bg-ink/20"></div></div><span class="text-body-md opacity-70">NumPy</span></div>
+            <div class="flex items-center gap-md"><div class="hex-indicator w-6 h-6 bg-ink/10 flex items-center justify-center group-hover:bg-ink transition-all"><div class="hex-indicator w-4 h-4 bg-ink/20"></div></div><span class="text-body-md opacity-70">Matplotlib</span></div>
+            <div class="flex items-center gap-md"><div class="hex-indicator w-6 h-6 bg-ink/10 flex items-center justify-center group-hover:bg-ink transition-all"><div class="hex-indicator w-4 h-4 bg-ink/20"></div></div><span class="text-body-md opacity-70">Scikit-learn</span></div>
+            <div class="flex items-center gap-md"><div class="hex-indicator w-6 h-6 bg-ink/10 flex items-center justify-center group-hover:bg-ink transition-all"><div class="hex-indicator w-4 h-4 bg-ink/20"></div></div><span class="text-body-md opacity-70">Gymnasium</span></div>
+            <div class="flex items-center gap-md"><div class="hex-indicator w-6 h-6 bg-ink/10 flex items-center justify-center group-hover:bg-ink transition-all"><div class="hex-indicator w-4 h-4 bg-ink/20"></div></div><span class="text-body-md opacity-70">Playwright</span></div>
+            <div class="flex items-center gap-md"><div class="hex-indicator w-6 h-6 bg-ink/10 flex items-center justify-center group-hover:bg-ink transition-all"><div class="hex-indicator w-4 h-4 bg-ink/20"></div></div><span class="text-body-md opacity-70">BeautifulSoup</span></div>
+            <div class="flex items-center gap-md"><div class="hex-indicator w-6 h-6 bg-ink/10 flex items-center justify-center group-hover:bg-ink transition-all"><div class="hex-indicator w-4 h-4 bg-ink/20"></div></div><span class="text-body-md opacity-70">Slack Bolt</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. CONTACT (PAPER) -->
+<section class="text-ink py-[120px] px-margin-desktop text-center border-t border-ink/5 bg-white" id="contact">
+  <div class="stagger max-w-4xl mx-auto">
+    <h2 class="reveal wipe font-davinci text-display-lg mb-lg uppercase leading-none">Contact</h2>
+    <p class="reveal font-helvetica text-body-lg mb-xl opacity-70 max-w-2xl mx-auto">Open to collaborations, internship opportunities, or discussions on Data Science and Software Engineering.</p>
+    <div class="reveal flex flex-col md:flex-row gap-xl justify-center items-center mt-12">
+      <div class="flex flex-col items-center">
+        <div class="w-16 h-16 rounded-full border border-ink/10 flex items-center justify-center mb-sm group hover:bg-ink transition-colors">
+          <span class="material-symbols-outlined text-headline-xl opacity-40 group-hover:text-putty transition-colors">mail</span>
+        </div>
+        <a class="font-davinci text-headline-md hover:text-graphite transition-colors tracking-tight" href="mailto:kushkodiya42@gmail.com">kushkodiya42@gmail.com</a>
+        <span class="font-label opacity-40 mt-1 uppercase tracking-widest text-[10px]">Email</span>
+      </div>
+      <div class="w-[1px] h-20 bg-ink/10 hidden md:block"></div>
+      <div class="flex flex-col items-center">
+        <div class="w-16 h-16 rounded-full border border-ink/10 flex items-center justify-center mb-sm group hover:bg-ink transition-colors">
+          <span class="material-symbols-outlined text-headline-xl opacity-40 group-hover:text-putty transition-colors">location_on</span>
+        </div>
+        <p class="font-davinci text-headline-md tracking-tight">Philadelphia, Pennsylvania</p>
+        <span class="font-label opacity-40 mt-1 uppercase tracking-widest text-[10px]">Location</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="w-full py-xl px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-lg bg-ink text-bone border-t border-bone/5">
+  <div class="flex flex-col items-center md:items-start">
+    <span class="font-label text-label-md font-bold text-bone">KK</span>
+  </div>
+  <nav class="flex gap-lg">
+    <a class="text-body-sm text-bone hover:underline transition-all" href="https://github.com/KushKodiya" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a class="text-body-sm text-bone hover:underline transition-all" href="https://www.linkedin.com/in/kush-kodiya-aa73462aa/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+  </nav>
+</footer>
+
+<script>
+  // Always open at the top — disable the browser's scroll-position restoration on reload
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.addEventListener('load', () => window.scrollTo(0, 0));
+
+  // Scroll-spy: highlight the nav link for the section currently in view
+  (function () {
+    const navLinks = Array.from(document.querySelectorAll('.nav-link'));
+    const sections = navLinks
+      .map((link) => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+
+    function setActive(id) {
+      navLinks.forEach((link) => {
+        const isActive = link.getAttribute('href') === '#' + id;
+        link.classList.toggle('active', isActive);
+        if (isActive) link.setAttribute('aria-current', 'true');
+        else link.removeAttribute('aria-current');
+      });
+    }
+
+    // A thin band near the top-center of the viewport decides the "current" section.
+    // The -45%/-50% margins account for the fixed 80px header and feel natural while scrolling.
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      { rootMargin: '-45% 0px -50% 0px', threshold: 0 }
+    );
+    sections.forEach((section) => observer.observe(section));
+  })();
+
+  // Scroll reveal: add `.in` to elements as they enter the viewport (once each).
+  // Harmless under reduced motion — the reveal CSS simply isn't applied there.
+  (function () {
+    const revealEls = document.querySelectorAll('.reveal');
+    if (!revealEls.length) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // Toggle (not add-once) so the reveal replays each time the element
+          // re-enters the viewport — scrolling up as well as down.
+          entry.target.classList.toggle('in', entry.isIntersecting);
+        });
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -10% 0px' }
+    );
+    revealEls.forEach((el) => io.observe(el));
+  })();
+
+  // Scroll progress bar + parallax, batched into a single rAF per frame.
+  (function () {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const progress = document.getElementById('scroll-progress');
+    const wordmark = document.querySelector('.wordmark-parallax');
+    const expBg = document.querySelector('.exp-parallax');
+    let ticking = false;
+
+    function update() {
+      const y = window.scrollY;
+      const docH = document.documentElement.scrollHeight - window.innerHeight;
+
+      // Progress bar: scale a single element instead of animating width (no reflow)
+      if (progress) progress.style.transform = 'scaleX(' + (docH > 0 ? y / docH : 0) + ')';
+
+      if (!reduce.matches) {
+        // Hero wordmark drifts down slower than the scroll → depth
+        if (wordmark) wordmark.style.transform = 'translateY(' + y * 0.18 + 'px)';
+        // Experience painting shifts its background position as the section passes
+        if (expBg) {
+          const section = expBg.parentElement;
+          const rect = section.getBoundingClientRect();
+          const prog = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+          expBg.style.backgroundPositionY = 'calc(50% + ' + (prog - 0.5) * 60 + 'px)';
+        }
+      }
+      ticking = false;
+    }
+
+    function onScroll() {
+      if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+  })();
+</script>
+
+</body>
+</html>
