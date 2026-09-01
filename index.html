@@ -130,14 +130,18 @@
     .reveal.from-right { transform: translateX(52px); }
     .reveal.zoom       { transform: scale(0.9); }
     .reveal.blur       { transform: translateY(24px); filter: blur(12px); }
-    /* Negative top/bottom insets (as a % of the heading's own height, so they scale)
-       keep glyph ascenders/descenders — e.g. the J in PROJECTS — from being clipped,
-       while the horizontal center-out wipe still runs. */
-    .reveal.wipe       { opacity: 1; transform: none; clip-path: inset(-30% 50% -30% 50%);
+    /* Center-out wipe. The clip sits on the *child*, never on the .reveal element itself:
+       Chromium folds a target's own clip-path into the IntersectionObserver rect, so a
+       fully-clipped heading reports zero intersection, never receives .in, and hides
+       itself from its own trigger. Negative top/bottom insets (as a % of the heading's
+       own height, so they scale) keep glyph ascenders/descenders — e.g. the J in
+       PROJECTS — from being clipped, while the horizontal wipe still runs. */
+    .reveal.wipe       { opacity: 1; transform: none; }
+    .reveal.wipe > *   { clip-path: inset(-30% 50% -30% 50%);
                          transition: clip-path 0.9s cubic-bezier(0.76, 0, 0.24, 1); }
     /* Resolved end state — declared last so it wins for every variant */
     .reveal.in         { opacity: 1; transform: none; filter: none; }
-    .reveal.wipe.in    { clip-path: inset(-30% 0 -30% 0); }
+    .reveal.wipe.in > * { clip-path: inset(-30% 0 -30% 0); }
     /* Staggered children when a parent grid/list reveals together */
     .stagger > *:nth-child(2) { transition-delay: 0.08s; }
     .stagger > *:nth-child(3) { transition-delay: 0.16s; }
@@ -224,7 +228,7 @@
 <section class="bg-putty text-ink py-[120px] px-margin-mobile md:px-margin-desktop border-t border-ink/5" id="about">
   <div class="stagger max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-xl items-start">
     <div class="reveal from-left">
-      <h2 class="reveal wipe font-davinci text-display-lg mb-lg uppercase leading-none">About Me</h2>
+      <div class="reveal wipe"><h2 class="font-davinci text-display-lg mb-lg uppercase leading-none">About Me</h2></div>
       <div class="space-y-md font-helvetica text-body-lg opacity-80 max-w-lg">
         <p>Hi! I'm Kush Kodiya, a Computer Science student at Purdue University with a focus on data science and machine learning. My research work involves developing machine learning models for Johnson &amp; Johnson and real-time localization with sensor fusion for autonomous vehicles.</p>
         <p>I am passionate about building full-stack applications like ChipCount and engineering robust web scrapers. My goal is to leverage machine learning and statistics to solve complex real-world challenges across diverse industries.</p>
@@ -471,7 +475,7 @@
 <!-- 6. CONTACT (PAPER) -->
 <section class="text-ink py-[120px] px-margin-mobile md:px-margin-desktop text-center border-t border-ink/5 bg-white" id="contact">
   <div class="stagger max-w-4xl mx-auto">
-    <h2 class="reveal wipe font-davinci text-display-lg mb-lg uppercase leading-none">Contact</h2>
+    <div class="reveal wipe"><h2 class="font-davinci text-display-lg mb-lg uppercase leading-none">Contact</h2></div>
     <p class="reveal font-helvetica text-body-lg mb-xl opacity-70 max-w-2xl mx-auto">Open to collaborations, internship opportunities, or discussions on Data Science and Software Engineering.</p>
     <div class="reveal flex flex-col md:flex-row gap-xl justify-center items-center mt-12">
       <div class="flex flex-col items-center">
